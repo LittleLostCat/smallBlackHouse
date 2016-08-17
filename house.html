@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>日期和月份的联动</title>
+		<script >
+			var pic=[
+					["constellation/1.jpg","白羊座是十二星座中的第一个星座，代表著初生的原始灵魂和感觉。他们充满了强烈的好奇心、坚强的意志力，不服输和冒险犯难、创新求变的精神；往往将第一视为理所当然，不喜欢落在别人的后面。","白羊座"],
+					["constellation/2.jpg","金牛座是黄道的第二个星座，是“土象星座”的第一个星座，故也称“土象的婴孩”。如同这个名称所示，他是一只不折不扣的『牛』；而且是一头有『金』(物欲)特性，占有欲很强的牛。","金牛座"],
+					["constellation/3.jpg","基本上，双子座人的意志一直都是一体两面的积极与消极，动与静、明与暗，相互消长，共荣共存的。通常很多才多艺，也可同时处理很多事情，有些则会表现明显的两种或多种人格，这种多变的特性，往往令人难以捉摸。他们相当具有灵性、聪明、心智活跃敏锐，喜欢忙碌和追求新的概念及作事的方法，有活力、口才一流、活力充沛、胸怀大志、人缘很好，并且都有语言天份。对事物的思考很快，改变主意也比一般人快。","双子座"],
+					["constellation/4.jpg","巨蟹座的人天生具有旺盛的精力和敏锐的感觉，道德意识很强烈，对欲望的追求也总能适度的停止。有精辟的洞察能力，自尊心也很强，同时也生性慷慨、感情丰富，乐意帮助有需要的人，并喜欢被需要与被保护的感觉。","巨蟹座"],
+					["constellation/5.jpg","在十二星座中，狮子座是最具有权威感与支配能力的星座。通常有一种贵族气息或是王者风范。受人尊重，做事相当独立，知道如何运用能力和权术以达到目的。","狮子座"],
+					["constellation/6.jpg","处女座的特色是有丰富的知性，做事一丝不苟，有旺盛的批判精神(那是因为他们总希望世事能和他们的主观标准相同)，是个完美主义者，极度的厌恶虚伪与不正当的事。无论年纪大小，都保有一颗赤子之心，充满了对过去的回忆及对未来的梦想。通常他们也很实际，但是可以使爱幻想和实际的性格共存且并荣。","处女座"],
+					["constellation/7.jpg","天秤座的人爱好美与和谐，也相当仁慈并富有同情心，天性善良温和、体贴、沉着。由於受到金星的影响(这点和金牛座相同。它掌管的是爱、美、婚姻、金钱的丰盛收成)，有著优秀的理解能力和艺术监赏力，但往往会把任何事物都当做艺术和游戏，以这一体两面的方式来表现。","天秤座"],
+					["constellation/8.jpg","这个星座的人有著强烈的第六感、神秘的探视能力及吸引力，做事常凭直觉；虽然有著敏锐的观察力，但往往仍靠感觉来决定一切。","天蝎座"],
+					["constellation/9.jpg","这个星座出生的人崇尚自由、无拘无束及追求速度的感觉，生性乐观、热情，是个享乐主义派。射手座的守护星是希腊神话中的宙斯-宇宙的主宰和全知全能的众神之王。所以是个神圣的完美主义者，有阳刚的气息、宽大体贴的精神，重视公理与正义的伸张。","射手座"],
+					["constellation/10.jpg","就像是只走在高山绝壁的山羊一样稳健踏实，会小心翼翼渡过困厄的处境。通常都很健壮，有过人的耐力、意志坚决、有时间观念、有责任感、重视权威和名声，对领导统御很有一套，自成一格，另外组织能力也不错","摩羯座"],
+					["constellation/11.jpg","这个星座常被称为“天才星座”或“未来星座”。因为它的守护星是天王星，而希腊神话中上通天文、下知地理，并有预知未来能力的智慧大神～乌拉诺斯，是它的守护神。所以他们具有前瞻性、有独创性、聪慧、富理性，喜欢追求新的事物及生活方式。","水瓶座"],
+					["constellation/12.jpg","双鱼座是古老轮回的结束，这种古老轮回后的灵魂，是一种透澈。也许正因如此，他们总深陷在灵和欲之间，退缩在一种自创的梦幻之境里。他们爱作梦，也无时不在幻想，也常将这种情结搬到现实环境中，而显得有些不切实际，但他们是善良的，有绝对舍己助人的牺牲奉献精神；他们是敏感、仁慈、和善、宽厚、与世无争、温柔、多愁善感的纯情主义者，也是十二星座中最“多情”的一个。","双鱼座"]
+				];
+			var dayMonth=[31,28,31,30,31,30,31,31,30,31,30,31];
+			window.onload=function(){
+				var nowDate=new Date();
+				var nowYear=nowDate.getFullYear();
+				var nowMonth=nowDate.getMonth();
+				var nowDay=nowDate.getDate();
+//				document.write(nowDay);
+				//为年赋值
+				var y=document.getElementById("year");
+				for(var i=(nowYear-30);i<(nowYear+30);i++){
+					var option1=document.createElement("option");
+					option1.innerText=i;
+					option1.setAttribute("value",i);
+					y.appendChild(option1);
+				}
+				y[31].selected="true";
+				//为月赋值
+				var m=document.getElementById("month");
+				for(var i=1;i<13;i++){
+					var option1=document.createElement("option");
+					option1.innerText=i;
+					option1.setAttribute("value",i);
+					m.appendChild(option1);
+				}
+				m[nowMonth+1].selected="true";
+				//为日赋值
+				var n=dayMonth[nowMonth];
+				if(judgeYear(nowYear)&&nowMonth==2){
+					n++;
+				}
+				var monDay=document.getElementById("day");
+				for(var i=1;i<=n;i++){
+					var option1=document.createElement("option");
+					option1.innerText=i;
+					option1.setAttribute("value",i);
+					monDay.appendChild(option1);
+				}
+				monDay[nowDay].selected="true";
+			}
+			//年的联动
+			function getCurrentYear(str){
+				//年变化时获得月的值
+				var n=0;
+				var m=document.getElementById("month").value;
+				var y=judgeYear(str.value);
+//				console.log(y);
+//				console.log(m);
+				if(y&&m==2){
+					n=29;
+//					console.log(n);
+				}else{
+					n=dayMonth[m-1];
+//					console.log(n);
+				}
+				var monDay=document.getElementById("day");
+				while(monDay.length>1){
+					monDay.removeChild(monDay.lastChild);
+				}
+				for(var i=1;i<=n;i++){
+					var option1=document.createElement("option");
+					option1.innerText=i;
+					option1.setAttribute("value",i);
+					monDay.appendChild(option1);
+				}
+			}
+			//判断是否为闰年
+			function judgeYear(inYear){
+				var isYear=(inYear%400==0||(inYear%4==0&&inYear%100!=0))?true:false;
+				return isYear;
+			}
+			//月的联动
+			function getCurrentMonth(str){
+				var n=0;
+				var y=document.getElementById("year").value;
+//				console.log(y);
+				var y=judgeYear(y);
+				var m=str.value;
+//				console.log(y);
+//				console.log(m);
+				if(y&&m==2){
+					n=29;
+//					console.log(n);
+				}else{
+					n=dayMonth[m-1];
+//					console.log(n);
+				}
+				var monDay=document.getElementById("day");
+				while(monDay.length>1){
+					monDay.removeChild(monDay.lastChild);
+				}
+				for(var i=1;i<=n;i++){
+					var option1=document.createElement("option");
+					option1.innerText=i;
+					option1.setAttribute("value",i);
+					monDay.appendChild(option1);
+				}
+			}
+			//日的联动，主要为了判断星座
+			function getCurrentDay(str){
+				var m=document.getElementById("month").value;
+				var d=str.value;
+				judgeCon(m,d);
+			}
+			//判断星座
+			function judgeCon(month,day){
+				var d=parseInt(day);
+				var order;
+				if(d<10){
+					day="0"+day;
+				}
+				var entirety=parseInt(month+day);
+				var arrCon=[
+						[311,419],
+						[420,520],
+						[521,621],
+						[622,722],
+						[723,822],
+						[823,922],
+						[923,1023],
+						[1024,1122],
+						[1123,1221],
+						[1222,119],
+						[120,218],
+						[219,320]
+				]
+				for(i=0;i<12;i++){
+					var x=arrCon[i][0];
+					var y=arrCon[i][1];
+					if(i==9){
+						if(entirety>=x||entirety<=y){
+							order=i;
+						}
+					}
+					else if(entirety>=x&&entirety<=y){
+						order=i;
+					}
+				}
+				order;
+				return order;
+			}
+			//创建图片元素
+			function createImg(){
+				var m=document.getElementById("month").value;
+				var d=document.getElementById("day").value;
+				var n=judgeCon(m,d);
+				var arr=pic[n][0];
+				console.log(m);
+				console.log(d);
+				console.log(n);
+				console.log(arr);
+				var imgPath=document.createElement("img");
+				var img=document.getElementById("div1");
+				imgPath.src=arr;
+//				var imgPath.setattributes("src","constellation/3.jpg");
+//				var img=document.getElementById("conImg");
+//				img.setAttribute("src",arr);
+				img.removeChild(img.lastChild);
+				img.appendChild(imgPath);
+			}
+			//创建文字元素
+			function createTxt(){
+				var m=document.getElementById("month").value;
+				var d=document.getElementById("day").value;
+				var n=judgeCon(m,d);
+				var arr=pic[n][1];
+				console.log(arr);
+//				var imgPath=document.createElement("img");
+//				var imgPath.setattributes("src","constellation/3.jpg");
+				var img=document.getElementById("txtCon");
+				img.innerText=arr;
+//				img.appendChild(imgPath);
+			}
+			//input中赋值
+			function conStar(){
+				var m=document.getElementById("month").value;
+				var d=document.getElementById("day").value;
+				var n=judgeCon(m,d);
+				var arr=pic[n][2];
+				console.log(arr);
+				var img=document.getElementById("constellation");
+				img.value="                  "+arr;
+			}
+			//三个同事触发
+			function sameTime(){
+				conStar();
+				createTxt();
+				createImg();
+			}
+		</script>
+	</head>
+	<style>
+		body{
+			background-image: url(img/fdsa.png);
+			background-size: cover;
+		}
+		#all{
+			width: 1400px;
+			margin: 0px auto;
+			/*border: 1px solid blue;*/
+		}
+		header{
+			width: 150px;
+			text-align: center;
+			margin: 20px auto;
+			background-image: url(img/未标题-1.png);
+			height: 150px;
+			background-size:150px 150px ;
+			background-repeat: no-repeat;
+			/*border: 1px solid red;*/
+			background-position: 0 20px;
+		}
+		#running{
+			width: 1000px;
+			margin: 0 auto;
+			/*border: red 1px solid;*/
+		}
+		.btn{
+			height: 40px;
+			width: 1000px;
+			/*border: 1px solid;*/
+			margin: 30px 0 50px 0;
+			display: flex;
+			flex-direction: row;
+		}
+		.head{
+			flex: 4 4;
+			margin: 5px 20px 5px 20px;
+			border: 1px solid #A9A9A9;
+			border-radius: 8px;
+			color: #A9A9A9;
+			background: none;
+			outline: none;
+		}
+		#word{
+			flex: 1 1 40px;
+			/*border:1px solid gold ;*/
+			line-height: 40px;
+		}
+		#start{
+			flex: 3 3;
+			border-radius: 15px;
+			background:none ;
+			margin: 5px 0px 5px 20px;
+			/*border: 1px solid #A9A9A9;*/
+			color: goldenrod;
+			outline: none;
+		}
+		#main{
+			display: flex;
+			flex-direction: row;
+			height: 40px;
+			width: 800px;
+			/*border: 1px solid red;*/
+		}
+		#main>label{
+			flex: 1 1;
+			line-height: 40px;
+			color: #A9A9A9;
+			outline: none;
+		}
+		#main>input{
+			flex: 3 3;
+			margin: 0 5px 0 5px;
+			background: none;
+			border: none;
+			border-bottom: .5px solid #A9A9A9;
+			outline: none;
+			color: white;
+		}
+		footer{
+			width: 1400px;
+			height: 800px;
+			display: flex;
+			flex-direction: row;
+			/*border: 1px solid red;*/
+			margin: 20px auto;
+		}
+		#div1{
+			flex: 4 4;
+			background-repeat: no-repeat;
+			/*border: 1px solid red;*/
+		}
+		#div1>img{
+			width: 380px;
+			height: 290px;
+		}
+		#div21{
+			width: 600px;
+			/*border: 1px solid red;*/
+			text-align: center;
+			padding-top: 100px;
+			color:#A9A9A9;
+		}
+		#div2{
+			width: 150px;
+			height: 150px;
+			/*border: 1px solid red;*/
+			background-image: url(img/fd.png);
+			background-size: 150px 150px;
+			margin: 0px auto;
+			margin-bottom: 100px;
+		}
+		#div3{
+			flex: 4 4;
+			background-image: ;
+			/*border: 1px solid red;*/
+		}
+		#div31{
+			width: 400px;
+			/*color: white;*/
+			color: black;
+			font-size: 26px;
+			font-family: "微软雅黑";
+			margin: 0 auto;
+		}
+	</style>
+	<body>
+		<div id="all">
+			<header>
+			</header>
+				<div id="running">
+					<div class="btn">
+						<label id="word" style="color: #A9A9A9;">
+							请选择:
+						</label>
+						<select class="head" id="year" onchange="getCurrentYear(this)" >
+							<option value="-1">年</option>
+						</select>
+						<select class="head" id="month" onchange="getCurrentMonth(this)">
+							<option value="-1">月</option>
+						</select>
+						<select class="head" id="day" onchange="getCurrentDay(this)">
+							<option value="-1">日</option>
+						</select>
+						<input id="start" type="button" onclick="sameTime()" value="计算星象" />
+					</div>
+					<div id="main">
+						<label>你的星座：</label>
+						<input type="text" id="constellation"/>
+						<label>你的属相：</label>
+						<input type="text" />
+					</div>
+				</div>
+		</div>
+		<footer>
+			<div id="div1">
+			</div>
+			<div id="div21">
+				<div id="div2"></div>
+				<label>Copyright © 1998 - 2016 TRDAN . All Rights Reserved</label><br />
+				<label>王领科 版权所有</label>
+			</div>
+			<div id="div3">
+				<div id="div31">
+					<label id="txtCon" style="color: white;"></label>
+				</div>
+			</div>
+		</footer>
+	</body>
+</html>
